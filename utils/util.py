@@ -115,16 +115,11 @@ class defect:
 
         nlist = self.lc.nlist
         nlist.filter_r(self.box, snap.particles.position[:], snap.particles.position[:],rmax = r_nlist)
-        print("AND?")
         random_points = find_point_in_cell(self.lc, int(p_per_cell))
-        print("before:")
-        print(len(random_points))
 
         if count!=0:
             dens_tags = nlist.neighbor_counts[random_points]>count
             random_points = random_points[dens_tags]    
-            print("after")
-            print(len(random_points))
        
         defect_list = np.array(dpc(snap.particles.position[:,[0,1]], orientations[:,[0,1]], nlist.index_i, nlist.index_j, nlist.segments, random_points,self.slice_no, self.min_angle))
         
