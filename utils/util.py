@@ -46,10 +46,15 @@ def compute_orientation(snap):
     orientation=np.zeros([N,3]);
     for tag in range(N):
         orient = np.array([1,0,0]);
-        if(snap.particles.typeid[tag] != 2):
-            orient = snap.particles.position[tag+1] - snap.particles.position[tag];
+        if(snap.particles.typeid[tag] == 0):
+            orient = snap.particles.position[tag+1] -snap.particles.position[tag];                        
+        elif(snap.particles.typeid[tag] == 2):
+            orient = snap.particles.position[tag] -snap.particles.position[tag-1];            
         else:
-            orient = snap.particles.position[tag] -snap.particles.position[tag-1];
+            orient_p = snap.particles.position[tag+1] -snap.particles.position[tag]; 
+            orient_m = snap.particles.position[tag] -snap.particles.position[tag-1]; 
+            orient = (orient_p + orient_m)/2.
+
         orientation[tag] = orient / np.linalg.norm(orient);
     return orientation;
 
